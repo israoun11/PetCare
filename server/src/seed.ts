@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import bcrypt from 'bcrypt'; import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs'; import mongoose from 'mongoose';
 import { User, Pet, Health, CareTask, Listing, Post, Product } from './models';
 (async () => {
   await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/petcare');

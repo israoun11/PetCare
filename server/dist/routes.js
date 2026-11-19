@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const crypto_1 = __importDefault(require("crypto"));
 const zod_1 = require("zod");
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
@@ -35,7 +35,7 @@ a.post('/register', (0, lib_1.h)(async (q, s) => {
     const u = await models_1.User.create({
         name: b.name,
         email: b.email,
-        password: await bcrypt_1.default.hash(b.password, 12),
+        password: await bcryptjs_1.default.hash(b.password, 12),
     });
     (0, lib_1.ok)(s.status(201), {
         token: (0, lib_1.token)(u.id),
@@ -50,7 +50,7 @@ a.post('/login', (0, lib_1.h)(async (q, s) => {
     const u = await models_1.User.findOne({
         email: b.email.toLowerCase(),
     }).select('+password');
-    if (!u || !(await bcrypt_1.default.compare(b.password, u.password))) {
+    if (!u || !(await bcryptjs_1.default.compare(b.password, u.password))) {
         throw (0, lib_1.httpError)(401, 'Invalid email or password');
     }
     if (!u.active) {
@@ -93,7 +93,7 @@ a.post('/reset', (0, lib_1.h)(async (q, s) => {
     if (!u) {
         throw (0, lib_1.httpError)(400, 'Reset link is invalid or expired');
     }
-    u.password = await bcrypt_1.default.hash(b.password, 12);
+    u.password = await bcryptjs_1.default.hash(b.password, 12);
     u.resetHash = undefined;
     u.resetExp = undefined;
     await u.save();

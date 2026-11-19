@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const models_1 = require("./models");
 (async () => {
@@ -18,7 +18,7 @@ const models_1 = require("./models");
         models_1.Post.deleteMany({}),
         models_1.Product.deleteMany({})
     ]);
-    const pw = await bcrypt_1.default.hash('Demo1234!', 12); // LOCAL DEVELOPMENT ONLY
+    const pw = await bcryptjs_1.default.hash('Demo1234!', 12); // LOCAL DEVELOPMENT ONLY
     const [admin, sarah, omar] = await models_1.User.create([{ name: 'PETCARE Admin', email: 'admin@petcare.local', password: pw, role: 'admin' },
         { name: 'Sarah', email: 'sarah@petcare.local', password: pw }, { name: 'Omar', email: 'omar@petcare.local', password: pw }]);
     const day = (n, h = 9) => { const d = new Date(); d.setDate(d.getDate() + n); d.setHours(h, 0, 0, 0); return d; };
