@@ -5,9 +5,14 @@ import { User, Pet } from './models';
 
 export const SECRET = () => process.env.JWT_SECRET || 'dev-secret-change-me';
 
-export interface AuthReq extends Request {
+export type AuthReq = Request<
+  Record<string, string>,
+  any,
+  any,
+  Record<string, any>
+> & {
   user: InstanceType<typeof User>;
-}
+};
 
 export const httpError = (status: number, message: string) =>
   Object.assign(new Error(message), { status });
